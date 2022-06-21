@@ -10,10 +10,11 @@ import {
   ApolloProvider,
   gql,
 } from '@apollo/client';
+import USER_DETAIL from '../constants/user';
 
 const UPDATE_STORY_TITLE = gql`
-  mutation ($text: String!) {
-    updateStoryTitle(text: $text) {
+  mutation ($id: Int!, $text: String!) {
+    updateStoryTitle(id: $id, text: $text) {
       picture
       text
     }
@@ -41,6 +42,7 @@ const Edit = () => {
     updateStoryTitleMutation({
       variables: {
         text: storyTitle,
+        id: USER_DETAIL.ID,
       },
     });
     navigation.goBack();

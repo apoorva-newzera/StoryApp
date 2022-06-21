@@ -30,10 +30,11 @@ import {
 import {launchImageLibrary} from 'react-native-image-picker';
 import ImgToBase64 from 'react-native-image-base64';
 import DialogInput from 'react-native-dialog-input';
+import USER_DETAIL from '../constants/user';
 
 const GET_USER = gql`
   query {
-    User {
+    User(id: ${USER_DETAIL.ID}) {
       name
       bio
       profilepic
@@ -41,23 +42,23 @@ const GET_USER = gql`
   }
 `;
 const UPDATE_USER = gql`
-  mutation updateUser($name: String!, $bio: String!) {
-    updateUser(name: $name, bio: $bio) {
+  mutation updateUser($id: Int!, $name: String!, $bio: String!) {
+    updateUser(id: $id, name: $name, bio: $bio) {
       name
       bio
     }
   }
 `;
 const UPDATE_PROFILEPIC = gql`
-  mutation ($profilepic: String!) {
-    updateProfilePic(profilepic: $profilepic) {
+  mutation ($id: Int!, $profilepic: String!) {
+    updateProfilePic(id: $id, profilepic: $profilepic) {
       profilepic
     }
   }
 `;
 const UPDATE_STORY = gql`
-  mutation ($picture: String!, $text: String!) {
-    updateStory(picture: $picture, text: $text) {
+  mutation ($id: Int!, $picture: String!, $text: String!) {
+    updateStory(id: $id, picture: $picture, text: $text) {
       picture
       text
     }
@@ -125,10 +126,11 @@ export default Profile = () => {
             //setPhoto({uri: `data:image/png;base64,${base64Image}`});
             //console.log(base64String);
             imageFound = base64String;
-            console.log(imageFound);
+            console.log(USER_DETAIL.ID);
             updateProfilepicMutation({
               variables: {
                 profilepic: imageFound,
+                id: USER_DETAIL.ID,
               },
             });
           })
@@ -150,6 +152,7 @@ export default Profile = () => {
               variables: {
                 picture: imageFound,
                 text: 'context of the story here',
+                id: USER_DETAIL.ID,
               },
             });
             setProfilepicBorderColor('#fdbb21');

@@ -11,10 +11,11 @@ import {
   ApolloProvider,
   gql,
 } from '@apollo/client';
+import USER_DETAIL from '../constants/user';
 
 const GET_STORY = gql`
   query {
-    Story {
+    Story(id: ${USER_DETAIL.ID}) {
       picture
       text
     }
